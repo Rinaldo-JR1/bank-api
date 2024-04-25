@@ -1,18 +1,18 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { prismaClient } from "../utils/prismaClient";
 import { Accounts } from "@prisma/client";
 import { AccountService } from "../services/account.service";
 
-
-
-
 export class AccountController {
-
-    public async getCount(req: Request, res: Response) {
+    public accountService: AccountService
+    constructor() {
+        this.accountService = new AccountService()
+    }
+    public getCount = async (req: Request, res: Response) => {
         return res.status(200).json({ message: await prismaClient.accounts.count() })
     }
 
-    public async CreateUser(req: Request, res: Response, next: NextFunction) {
+    public CreateUser = async (req: Request, res: Response, next: NextFunction) => {
         const data: Partial<Accounts> = {
             name: req.body.name,
             email: req.body.email,
@@ -24,11 +24,11 @@ export class AccountController {
             return res.status(400).json({ message: "Missing fields" })
         }
         try {
-            let accountService = new AccountService()
-            const userCreated = await accountService.CreateUser(data)
+            const userCreated = await this.accountService.CreateUser(data)
             return res.status(200).json({ message: "successfully created a new User", id: userCreated.id })
         } catch (error) {
             next(error)
         }
     }
+    
 }
