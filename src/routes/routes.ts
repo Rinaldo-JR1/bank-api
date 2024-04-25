@@ -7,6 +7,7 @@ const accountController = new AccountController();
 
 
 router.get("/account/count", accountController.getCount)
+router.post("/account/create", accountController.CreateUser)
 
 
 export { router }
