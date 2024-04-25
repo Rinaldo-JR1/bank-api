@@ -5,16 +5,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts"
+    "dev": "NODE_ENV=development ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+    "compile": "npx tsc --removeComments",
+    "start": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "prisma": "^5.13.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "prisma": "^5.13.0",
+    "winston": "^3.13.0"
   }
 }
