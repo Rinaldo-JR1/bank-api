@@ -17,5 +17,4 @@ export class AccountService {
         }
         throw new Error("Account not created")
     }
-
 }
