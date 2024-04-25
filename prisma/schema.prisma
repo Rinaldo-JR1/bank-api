@@ -12,3 +12,26 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Account {
+  id        String        @id @default(cuid())
+  email     String        @unique
+  name      String?
+  cpf       String        @unique
+  password  String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  balance   Float
+  sent      Transaction[] @relation("TransactionSender")
+  received  Transaction[] @relation("TransactionReceiver")
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  amount     Float
+  createdAt  DateTime @default(now())
+  sender     Account  @relation("TransactionSender", fields: [senderId], references: [id])
+  receiver   Account  @relation("TransactionReceiver", fields: [receiverId], references: [id])
+}
