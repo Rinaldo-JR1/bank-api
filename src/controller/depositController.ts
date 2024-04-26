@@ -9,10 +9,9 @@ export class DepositController {
     constructor() {
         this.accountService = new AccountService();
         this.depositService = new DepositService();
-        this.Deposit = this.Deposit.bind(this); // Add this line
     }
 
-    public async Deposit(req: Request, res: Response, next: NextFunction) {
+    public Deposit = async (req: Request, res: Response, next: NextFunction) => {
         const { id, value } = req.body;
         if (!id || !value) {
             return res.status(400).json({ message: "Missing fields" });
