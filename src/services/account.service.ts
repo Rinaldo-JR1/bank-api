@@ -17,4 +17,39 @@ export class AccountService {
         }
         throw new Error("Account not created")
     }
+    public async getUserById(id: string): Promise<Partial<Accounts>> {
+        const user = await this.client.accounts.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                id: true,
+                cpf: true,
+                email: true,
+                name: true,
+                balance: true,
+                createdAt: true,
+                updatedAt: true,
+                status: true,
+            }
+        })
+        if (user) {
+            return user
+        }
+        throw new Error("User not found")
+    }
+    public async DactivateAccount(id: string): Promise<Accounts> {
+        const accountDactivated = await this.client.accounts.update({
+            where: {
+                id: id
+            },
+            data: {
+                status: false,
+            }
+        })
+        if (accountDactivated) {
+            return accountDactivated
+        }
+        throw new Error("User not found")
+    }
 }

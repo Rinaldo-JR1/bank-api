@@ -30,5 +30,34 @@ export class AccountController {
             next(error)
         }
     }
-    
+    public DesativateAccount = async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.id
+        if (!id) {
+            return res.status(400).json({ message: "Missing fields" })
+        }
+        try {
+            const userFound = await this.accountService.getUserById(id);
+            if (userFound.status === false) {
+                return res.status(400).json({ message: "User already deactivated" })
+            }
+            if (userFound.balance === 0) {
+                const userUpdated = await this.accountService.DactivateAccount(id);
+                return res.status(200).json({ message: "successfully deactivate User" })
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+    public GetUserById = async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.id
+        if (!id) {
+            return res.status(400).json({ message: "Missing fields" })
+        }
+        try {
+            const userFound = await this.accountService.getUserById(id);
+            return res.status(200).json({ message: "User found", user: userFound })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
