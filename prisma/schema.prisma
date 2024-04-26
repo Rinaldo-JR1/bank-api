@@ -13,25 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id        String        @id @default(cuid())
-  email     String        @unique
+model Accounts {
+  id        String         @id @default(cuid())
+  email     String         @unique
   name      String?
-  cpf       String        @unique
+  cpf       String         @unique
   password  String
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
   balance   Float
-  sent      Transaction[] @relation("TransactionSender")
-  received  Transaction[] @relation("TransactionReceiver")
+  status    Boolean        @default(true)
+  sent      Transactions[] @relation("TransactionSender")
+  received  Transactions[] @relation("TransactionReceiver")
+  Deposits  Deposits[]
+  Withdraws Withdraws[]
 }
 
-model Transaction {
+model Deposits {
+  id        String   @id @default(cuid())
+  accountId String
+  amount    Float
+  createdAt DateTime @default(now())
+  account   Accounts @relation(fields: [accountId], references: [id])
+}
+
+model Withdraws {
+  id        String   @id @default(cuid())
+  accountId String
+  amount    Float
+  createdAt DateTime @default(now())
+  account   Accounts @relation(fields: [accountId], references: [id])
+}
+
+model Transactions {
   id         String   @id @default(cuid())
   senderId   String
   receiverId String
   amount     Float
   createdAt  DateTime @default(now())
-  sender     Account  @relation("TransactionSender", fields: [senderId], references: [id])
-  receiver   Account  @relation("TransactionReceiver", fields: [receiverId], references: [id])
+  sender     Accounts @relation("TransactionSender", fields: [senderId], references: [id])
+  receiver   Accounts @relation("TransactionReceiver", fields: [receiverId], references: [id])
 }
