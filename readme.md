@@ -1,5 +1,15 @@
 # Bank API
 
+update your docker file with your credentials
+
+```dockerfile
+MYSQL_ROOT_PASSWORD: YOURPASSWORD
+MYSQL_DATABASE: Bank_DB
+MYSQL_USER: YOURUSER
+MYSQL_PASSWORD: YOURPASSWORD
+```
+
+
 Initilize Docker Mysql Docker
 
 ```bash
